@@ -1,0 +1,23 @@
+name: Tag Release
+
+on:
+  push:
+      branches:
+          - release/**
+permissions:
+  contents: write
+
+
+jobs:
+    release:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v3     
+        - name: Git tag
+          run: |
+            git config --global user.name "noh4nsen"
+            git config --global user.email "noh4nsen@gmail.com"
+            export version=$(git branch --show-current | sed 's:.*/::')
+            git tag -a $version -m $version
+            git push origin --tags
