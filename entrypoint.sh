@@ -15,7 +15,7 @@ while read -r project; do
     echo "--- Running tfsec on $project ---"
 
     cd $GITHUB_WORKSPACE/$project
-    report=$(jq --argjson obj "$(jq -n -c --arg "project" $project '$ARGS.named' --argjson "report" "$(tfsec --format=json)" '$ARGS.named')" '. + [$obj]' <<< "$report")
+    report=$(jq --argjson obj "$(jq -n -c --arg "project" $project '$ARGS.named' --argjson "report" "$(tfsec --format=json | tr "'" " " | tr -d '\')" '$ARGS.named')" '. + [$obj]' <<< "$report")
 
     echo -e "--- Finished Report on $project ---\n"
 done < <(echo $projects | tr -d "'" | jq -r '.projects[]' )
