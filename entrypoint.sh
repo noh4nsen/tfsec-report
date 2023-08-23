@@ -21,4 +21,4 @@ while read -r project; do
 done < <(echo $projects | tr -d "'" | jq -r '.projects[]' )
 
 
-echo "tfsec_report=$(echo $report)" >> $GITHUB_OUTPUT
+echo "tfsec_report=$(echo -n $report | base64)" >> $GITHUB_OUTPUT
